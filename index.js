@@ -1,11 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import Url from './models/url.js';
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express();
 const port = process.env.PORT;
 
-mongoose.connect(process.env.MONGODB);
+mongoose.connect(process.env.MONGODB).then().catch(()=> console.log('mongodb connection failed'));
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
