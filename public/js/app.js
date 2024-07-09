@@ -2,7 +2,10 @@ document.getElementById('urlForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const fullUrl = document.getElementById('fullUrl').value;
     if(!fullUrl){
-        return document.querySelector('.after-cut').style.display = 'none';
+        document.querySelector('.after-cut').style.display = 'none';
+        document.querySelector('.qr-code').style.display = 'none';
+        document.querySelector('.validation').style.display = 'block';
+        return;
     }
     try {
         const response = await fetch('/shortUrls', {
@@ -14,11 +17,19 @@ document.getElementById('urlForm').addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
+            //remove validation
+            document.querySelector('.validation').style.display = 'none';
+
+            //url-shortner
             const data = await response.json();
             const shortUrlElement = document.getElementById('short-url');
             shortUrlElement.textContent = `${window.location.href}${data.short}`;
             shortUrlElement.href = `${window.location.href}${data.short}`;
             document.querySelector('.after-cut').style.display = 'block';
+
+            //qr-generator
+            document.querySelector('.qr-code').style.display = 'block';
+            document.getElementById("qr-img").src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${window.location.href}${data.short}`
         } else {
             console.error('error:', response.statusText);
         }

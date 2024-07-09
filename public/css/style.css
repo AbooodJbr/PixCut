@@ -33,8 +33,9 @@ body {
 .cut-btn:hover, .cut-btn:active{
     background-color: #13254a;
 }
-.after-cut {
+.after-cut, .qr-code, .validation {
     display: none;
+    transition: ease-in 2s;
 }
 .copy-btn{
     letter-spacing: 2px;
